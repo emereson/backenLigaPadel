@@ -40,7 +40,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       paymentLink: null,
     });
 
-    return; // Terminar la ejecución de la función
+    return;
   }
 
   const preference = {
