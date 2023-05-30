@@ -90,12 +90,27 @@ exports.webhook = catchAsync(async (req, res) => {
         description: data.body.description,
       });
       console.log('Pago guardado:', newPayment);
+
+      res.status(200).json({
+        status: 'success',
+        message: 'Pago realizado con éxito',
+        paymentDetails: {
+          email: data.body.payer.email,
+          typePay: data.body.order.type,
+          transactionAmount: data.body.transaction_amount,
+          receivedAmount: data.body.transaction_details.net_received_amount,
+          collectorId: data.body.collector_id,
+          status: data.body.status,
+          description: data.body.description,
+        },
+      });
+    } else {
+      res.status(204).json({
+        status: 'success',
+        message: 'Pago realizado con éxito',
+        payment,
+      });
     }
-    res.status(204).json({
-      status: 'success',
-      message: 'Pago realizado con éxito',
-      payment,
-    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Something goes wrong' });
