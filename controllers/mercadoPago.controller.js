@@ -98,8 +98,7 @@ exports.webhook = catchAsync(async (req, res) => {
     } else {
       res.status(200).json({
         status: 'success',
-        message: 'Webhook recibido',
-        data,
+        message: 'Webhook recibido y procesado',
       });
     }
   } catch (error) {
