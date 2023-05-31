@@ -8,7 +8,7 @@ exports.validExistEvent = catchAsync(async (req, res, next) => {
 
   const event = await Event.findOne({
     where: {
-      id: parseInt(id),
+      id,
     },
     include: [
       {

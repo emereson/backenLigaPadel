@@ -95,7 +95,7 @@ exports.webhook = catchAsync(async (req, res) => {
       res.status(200).json({
         status: 'success',
         message: 'Pago realizado con éxito',
-        paymentStatus: data.body.status,
+        paymentStatus,
       });
     } else {
       res.status(200).json({
