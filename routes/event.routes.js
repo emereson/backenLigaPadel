@@ -16,7 +16,7 @@ router.get('/torneo', eventController.findAllTorneo);
 router.get('/:id', eventMiddleware.validExistEvent, eventController.findOne);
 
 router.post('/:id/createOrder', createOderController.createOrder);
-router.post('/:id/webhook', createOderController.webhook);
+router.post('/webhook', createOderController.webhook);
 
 router.use(authMiddleware.protect);
 router.post('/', upload.single('coverImg'), eventController.create);
