@@ -91,6 +91,7 @@ exports.webhook = catchAsync(async (req, res) => {
       });
       console.log('Pago guardado:', newPayment);
 
+      // Esperar a que el pago se complete antes de enviar la respuesta al frontend
       if (data.body.status === 'approved') {
         res.status(200).json({
           status: 'success',
@@ -101,7 +102,7 @@ exports.webhook = catchAsync(async (req, res) => {
         res.status(200).json({
           status: 'success',
           message: 'Pago realizado con éxito',
-          paymentStatus: 'pending',
+          paymentStatus: 'pending', // o cualquier otro estado de pago que desees enviar
         });
       }
     } else {
