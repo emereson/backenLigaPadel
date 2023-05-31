@@ -82,4 +82,4 @@ io.on('connection', (socket) => {
 // Agregar el objeto 'io' a la aplicación para que esté disponible en otros archivos
 app.set('io', io);
 
-module.exports = { app, server };
+module.exports = { app, server, io };

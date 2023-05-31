@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { app } = require('./app');
+const { io } = require('./app');
 const { db } = require('./database/config');
 const initModel = require('./models/initModels');
 
@@ -14,6 +14,6 @@ db.sync()
   .catch((error) => console.log(error));
 
 const port = +process.env.PORT || 3023;
-app.listen(port, () => {
+io.listen(port, () => {
   console.log(`App Running on port ${port}`);
 });
