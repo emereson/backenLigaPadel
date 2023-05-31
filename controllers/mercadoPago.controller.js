@@ -52,7 +52,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
         currency_id: 'PEN',
       },
     ],
-    notification_url: process.env.NOTIFICATION_URL,
+    notification_url: encodeURI(process.env.NOTIFICATION_URL),
     back_urls: {
       success: 'http://localhost:5173/#/', // URL de éxito
     },
