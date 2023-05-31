@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const hpp = require('hpp');
+const { Server: SocketServer } = require('socket.io');
+const http = require('http');
 
 const authRouter = require('./routes/auth.routes');
 const usersRouter = require('./routes/users.routes');
@@ -19,8 +21,15 @@ const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/error.controller');
 const { rateLimit } = require('express-rate-limit');
 const xss = require('xss-clean');
+const { log } = require('console');
 
 const app = express();
+const server = http.createServer(app);
+const io = new SocketServer(server, {
+  cors: {
+    origin: '*',
+  },
+});
 
 const limiter = rateLimit({
   max: 1000,
@@ -37,6 +46,12 @@ app.use(cors());
 app.use(xss());
 app.use(helmet());
 app.use(hpp());
+app.set('io', io);
+
+io.on('connection', (socket) => {
+  console.log(socket.id);
+  console.log('a user connected');
+});
 
 app.use('/api/v1', limiter);
 app.use('/api/v1/users', usersRouter);
@@ -58,4 +73,4 @@ app.all('*', (req, res, next) => {
 
 app.use(globalErrorHandler);
 
-module.exports = app;
+module.exports = { app, server };

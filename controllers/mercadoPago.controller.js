@@ -77,6 +77,8 @@ exports.createOrder = catchAsync(async (req, res, next) => {
 exports.webhook = catchAsync(async (req, res) => {
   try {
     const payment = req.query;
+    const io = req.app.get('io'); // Obtener la instancia de 'io' desde la aplicación Express
+
     if (payment.type === 'payment') {
       const data = await mercadopago.payment.findById(payment['data.id']);
       console.log(data);
@@ -90,6 +92,8 @@ exports.webhook = catchAsync(async (req, res) => {
         description: data.body.description,
       });
       console.log('Pago guardado:', newPayment);
+      io.emit('validPay', { data: 'approved' });
+
       res.status(200).json({
         status: 'success',
         message: 'Pago realizado con éxito',
