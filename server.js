@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { app, server, io } = require('./app');
+const app = require('./app');
 const { db } = require('./database/config');
 const initModel = require('./models/initModels');
 
@@ -10,22 +10,10 @@ db.authenticate()
 initModel();
 
 db.sync()
-  .then(() => {
-    console.log('Database Synced! 🤩');
-
-    // Implementación de Socket.IO
-    io.on('connection', (socket) => {
-      console.log('Nuevo cliente conectado');
-
-      // Escucha el evento 'disconnect' cuando un cliente se desconecta
-      socket.on('disconnect', () => {
-        console.log('Cliente desconectado');
-      });
-    });
-
-    const port = +process.env.PORT || 3020;
-    server.listen(port, () => {
-      console.log(`App Running on port ${port}`);
-    });
-  })
+  .then(() => console.log('Database Synced! 🤩'))
   .catch((error) => console.log(error));
+
+const port = +process.env.PORT || 3022;
+app.listen(port, () => {
+  console.log(`App Running on port ${port}`);
+});

@@ -3,7 +3,6 @@ const mercadopago = require('mercadopago');
 const AppError = require('../utils/AppError');
 const Event = require('../models/event.model');
 const DatePayments = require('../models/datePayments.model');
-const { io } = require('../app');
 
 mercadopago.configure({
   access_token: process.env.MERCADO_PAGO_TOKEN,
@@ -91,10 +90,6 @@ exports.webhook = catchAsync(async (req, res) => {
         description: data.body.description,
       });
       console.log('Pago guardado:', newPayment);
-
-      // Emitir un evento 'paymentSuccess' al frontend con el estado del pago
-      io.emit('paymentSuccess', { paymentStatus: data.body.status });
-
       res.status(200).json({
         status: 'success',
         message: 'Pago realizado con éxito',
