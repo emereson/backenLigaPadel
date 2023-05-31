@@ -66,15 +66,12 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     error.statusCode = 500;
     throw error;
   }
-  console.log(response);
+
   res.status(200).json({
     status: 'success',
     message: 'Pago realizado con éxito',
-    response: response.body,
+    preferenceId: response.body,
   });
-
-  // Llamar a la función validOrder después de enviar la respuesta
-  validOrder();
 });
 
 exports.webhook = catchAsync(async (req, res) => {
@@ -94,11 +91,14 @@ exports.webhook = catchAsync(async (req, res) => {
       });
       console.log('Pago guardado:', newPayment);
 
+      // Obtener el estado de la transacción
+      const paymentStatus = data.body.status;
+
       // Enviar el estado de la transacción al frontend
       res.status(200).json({
         status: 'success',
         message: 'Pago realizado con éxito',
-        paymentStatus,
+        paymentStatus: paymentStatus,
       });
     } else {
       res.status(200).json({
