@@ -92,13 +92,13 @@ exports.webhook = catchAsync(async (req, res) => {
         description: data.body.description,
       });
       console.log('Pago guardado:', newPayment);
-      if (data.body.status === 'approved') {
-        io.emit('validPay', { data: 'approved' });
-        res.status(200).json({
-          status: 'success',
-          message: 'Pago realizado con éxito',
-        });
-      }
+      io.emit('validPay', { data: 'approved' });
+
+      res.status(200).json({
+        status: 'success',
+        message: 'Pago realizado con éxito',
+        paymentStatus: data.body.status,
+      });
     } else {
       res.status(200).json({
         status: 'success',
