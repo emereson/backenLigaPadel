@@ -91,8 +91,9 @@ exports.webhook = catchAsync(async (req, res) => {
         description: data.body.description,
       });
       console.log('Pago guardado:', newPayment);
-      if (newPayment) {
-        io.emit('validPay', { data: 'approved' }); // Marcar el evento como emitido
+      if (data.body.status === 'approved') {
+        contador++; // Incrementar el contador
+        io.emit('validPay', { data: 'approved', contador }); // Emitir el evento con el contador
       }
 
       res.status(200).json({
