@@ -82,7 +82,6 @@ exports.webhook = catchAsync(async (req, res) => {
 
     if (payment.type === 'payment') {
       const data = await mercadopago.payment.findById(payment['data.id']);
-      console.log(data);
       const newPayment = await DatePayments.create({
         email: data.body.payer.email,
         typePay: data.body.order.type,
@@ -93,8 +92,7 @@ exports.webhook = catchAsync(async (req, res) => {
         description: data.body.description,
       });
       console.log('Pago guardado:', newPayment);
-
-      if (!paymentEmitted) {
+      if (newPayment) {
         io.emit('validPay', { data: 'approved' });
         paymentEmitted = true; // Marcar el evento como emitido
       }
