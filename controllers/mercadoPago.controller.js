@@ -91,15 +91,19 @@ exports.webhook = catchAsync(async (req, res) => {
       });
       console.log('Pago guardado:', newPayment);
 
-      // Obtener el estado de la transacción
-      const paymentStatus = data.body.status;
-
-      // Enviar el estado de la transacción al frontend
-      res.status(200).json({
-        status: 'success',
-        message: 'Pago realizado con éxito',
-        paymentStatus: paymentStatus,
-      });
+      if (data.body.status === 'approved') {
+        res.status(200).json({
+          status: 'success',
+          message: 'Pago realizado con éxito',
+          paymentStatus: 'approved',
+        });
+      } else {
+        res.status(200).json({
+          status: 'success',
+          message: 'Pago realizado con éxito',
+          paymentStatus: 'pending',
+        });
+      }
     } else {
       res.status(200).json({
         status: 'success',
@@ -108,6 +112,6 @@ exports.webhook = catchAsync(async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: 'Something goes wrong' });
+    return res.status(500).json({ message: 'Algo salió mal' });
   }
 });
