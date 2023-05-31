@@ -60,4 +60,5 @@ app.all('*', (req, res, next) => {
 
 app.use(globalErrorHandler);
 
-module.exports = { app, server, io };
+module.exports = { app, server };
+module.exports.io = io;
