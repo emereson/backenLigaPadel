@@ -57,9 +57,6 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       success: 'http://localhost:5173/#/', // URL de éxito
     },
     external_reference: id.toString(),
-    payer: {
-      id,
-    },
   };
 
   const response = await mercadopago.preferences.create(preference);
@@ -79,7 +76,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
 
 exports.webhook = catchAsync(async (req, res) => {
   try {
-    const payment = req.body;
+    const payment = req.query;
     if (payment.type === 'payment') {
       const data = await mercadopago.payment.findById(payment['data.id']);
       console.log(data);
@@ -93,10 +90,6 @@ exports.webhook = catchAsync(async (req, res) => {
         description: data.body.description,
       });
       console.log('Pago guardado:', newPayment);
-
-      // Emitir evento de Socket.IO para notificar al frontend sobre el pago finalizado
-      req.app.get('io').emit('pagoFinalizado', { payment: newPayment });
-
       res.status(200).json({
         status: 'success',
         message: 'Pago realizado con éxito',
@@ -105,7 +98,8 @@ exports.webhook = catchAsync(async (req, res) => {
     } else {
       res.status(200).json({
         status: 'success',
-        message: 'Webhook recibido y procesado',
+        message: 'Webhook recibido',
+        data,
       });
     }
   } catch (error) {
