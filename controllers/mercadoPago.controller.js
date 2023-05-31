@@ -91,16 +91,18 @@ exports.webhook = catchAsync(async (req, res) => {
       });
       console.log('Pago guardado:', newPayment);
 
-      // Esperar a que el pago se complete antes de enviar la respuesta al frontend
+      // Validar el estado del pago
       if (data.body.status === 'approved') {
         res.status(200).json({
-          status: 'approved',
+          status: 'success',
           message: 'Pago realizado con éxito',
+          paymentStatus: 'approved',
         });
       } else {
         res.status(200).json({
           status: 'success',
           message: 'Pago realizado con éxito',
+          paymentStatus: 'pending',
         });
       }
     } else {
