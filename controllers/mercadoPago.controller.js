@@ -67,48 +67,42 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     throw error;
   }
 
-  // Enviar la respuesta al frontend con el enlace de pago
   res.status(200).json({
     status: 'success',
-    message: 'Orden de pago creada con éxito',
-    paymentLink: response.body.init_point,
+    message: 'Pago realizado con éxito',
+    preferenceId: response.body,
   });
 });
 
 exports.webhook = catchAsync(async (req, res) => {
-  const payment = req.query;
-  if (payment.type === 'payment') {
-    const data = await mercadopago.payment.findById(payment['data.id']);
-    console.log(data);
-    const newPayment = await DatePayments.create({
-      email: data.body.payer.email,
-      typePay: data.body.order.type,
-      transactionAmount: data.body.transaction_amount,
-      receivedAmount: data.body.transaction_details.net_received_amount,
-      collectorId: data.body.collector_id,
-      status: data.body.status,
-      description: data.body.description,
-    });
-    console.log('Pago guardado:', newPayment);
-
-    // Validar el estado del pago
-    if (data.body.status === 'approved') {
+  try {
+    const payment = req.query;
+    if (payment.type === 'payment') {
+      const data = await mercadopago.payment.findById(payment['data.id']);
+      console.log(data);
+      const newPayment = await DatePayments.create({
+        email: data.body.payer.email,
+        typePay: data.body.order.type,
+        transactionAmount: data.body.transaction_amount,
+        receivedAmount: data.body.transaction_details.net_received_amount,
+        collectorId: data.body.collector_id,
+        status: data.body.status,
+        description: data.body.description,
+      });
+      console.log('Pago guardado:', newPayment);
       res.status(200).json({
         status: 'success',
         message: 'Pago realizado con éxito',
-        paymentStatus: 'approved',
+        paymentStatus: data.body.status,
       });
     } else {
       res.status(200).json({
         status: 'success',
-        message: 'Pago pendiente',
-        paymentStatus: 'pending',
+        message: 'Webhook recibido',
       });
     }
-  } else {
-    res.status(200).json({
-      status: 'success',
-      message: 'Webhook recibido',
-    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Something goes wrong' });
   }
 });
