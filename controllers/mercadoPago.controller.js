@@ -66,12 +66,15 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     error.statusCode = 500;
     throw error;
   }
-
+  console.log(response);
   res.status(200).json({
     status: 'success',
     message: 'Pago realizado con éxito',
-    preferenceId: response.body,
+    response: response.body,
   });
+
+  // Llamar a la función validOrder después de enviar la respuesta
+  validOrder();
 });
 
 exports.webhook = catchAsync(async (req, res) => {
