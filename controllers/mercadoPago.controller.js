@@ -3,6 +3,7 @@ const mercadopago = require('mercadopago');
 const AppError = require('../utils/AppError');
 const Event = require('../models/event.model');
 const DatePayments = require('../models/datePayments.model');
+const Inscription = require('../models/inscription.model');
 
 mercadopago.configure({
   access_token: process.env.MERCADO_PAGO_TOKEN,
