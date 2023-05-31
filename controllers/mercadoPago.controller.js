@@ -108,7 +108,6 @@ exports.webhook = catchAsync(async (req, res) => {
       res.status(200).json({
         status: 'success',
         message: 'Webhook recibido',
-        data,
       });
     }
   } catch (error) {
