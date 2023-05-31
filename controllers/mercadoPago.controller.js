@@ -70,39 +70,92 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     message: 'Pago realizado con éxito',
-    preferenceId: response.body,
+    preferenceId: response,
   });
 });
 
 exports.webhook = catchAsync(async (req, res) => {
-  try {
-    const payment = req.query;
-    if (payment.type === 'payment') {
-      const data = await mercadopago.payment.findById(payment['data.id']);
-      console.log(data);
-      const newPayment = await DatePayments.create({
-        email: data.body.payer.email,
-        typePay: data.body.order.type,
-        transactionAmount: data.body.transaction_amount,
-        receivedAmount: data.body.transaction_details.net_received_amount,
-        collectorId: data.body.collector_id,
-        status: data.body.status,
-        description: data.body.description,
-      });
-      console.log('Pago guardado:', newPayment);
-      res.status(200).json({
-        status: 'success',
-        message: 'Pago realizado con éxito',
-        paymentStatus: data.body.status,
-      });
-    } else {
-      res.status(200).json({
-        status: 'success',
-        message: 'Webhook recibido',
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: 'Something goes wrong' });
+  const { id } = req.params;
+  const {
+    name1,
+    lastName1,
+    RutPlayer1,
+    email1,
+    mobileNumber1,
+    birthDate1,
+    poloSize1,
+    category1,
+    clubPlay1,
+    positionPlay1,
+    medicalProblem1,
+    name2,
+    lastName2,
+    RutPlayer2,
+    email2,
+    mobileNumber2,
+    birthDate2,
+    poloSize2,
+    category2,
+    clubPlay2,
+    positionPlay2,
+    medicalProblem2,
+    discountCoupon,
+  } = req.body;
+
+  const payment = req.query;
+  if (payment.type === 'payment') {
+    const data = await mercadopago.payment.findById(payment['data.id']);
+    console.log(data);
+    const newPayment = await DatePayments.create({
+      email: data.body.payer.email,
+      typePay: data.body.order.type,
+      transactionAmount: data.body.transaction_amount,
+      receivedAmount: data.body.transaction_details.net_received_amount,
+      collectorId: data.body.collector_id,
+      status: data.body.status,
+      description: data.body.description,
+    });
+
+    const inscription = await Inscription.create({
+      name1,
+      lastName1,
+      RutPlayer1,
+      email1,
+      mobileNumber1,
+      birthDate1,
+      poloSize1,
+      category1,
+      clubPlay1,
+      positionPlay1,
+      medicalProblem1,
+      name2,
+      lastName2,
+      RutPlayer2,
+      email2,
+      mobileNumber2,
+      birthDate2,
+      poloSize2,
+      category2,
+      clubPlay2,
+      positionPlay2,
+      medicalProblem2,
+      discountCoupon,
+      eventId: id,
+    });
+
+    console.log('Pago guardado:', newPayment, inscription);
+    res.status(200).json({
+      status: 'success',
+      message: 'Pago realizado con éxito',
+      paymentStatus: data.body.status,
+    });
+  } else {
+    res.status(200).json({
+      status: 'success',
+      message: 'Webhook recibido',
+      data,
+    });
   }
+
+  return next(new AppError(`Something goes wrong`, 404));
 });
