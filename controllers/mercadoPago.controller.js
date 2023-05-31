@@ -40,7 +40,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       paymentLink: null,
     });
 
-    return;
+    return; // Terminar la ejecución de la función
   }
 
   const preference = {
@@ -66,11 +66,11 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     error.statusCode = 500;
     throw error;
   }
-  console.log(response);
+
   res.status(200).json({
     status: 'success',
     message: 'Pago realizado con éxito',
-    response: response.body,
+    preferenceId: response.body.id,
   });
 });
 
@@ -91,24 +91,16 @@ exports.webhook = catchAsync(async (req, res) => {
       });
       console.log('Pago guardado:', newPayment);
 
+      // Enviar el estado de la transacción al frontend
       res.status(200).json({
         status: 'success',
         message: 'Pago realizado con éxito',
-        paymentDetails: {
-          email: data.body.payer.email,
-          typePay: data.body.order.type,
-          transactionAmount: data.body.transaction_amount,
-          receivedAmount: data.body.transaction_details.net_received_amount,
-          collectorId: data.body.collector_id,
-          status: data.body.status,
-          description: data.body.description,
-        },
+        paymentStatus: data.body.status,
       });
     } else {
-      res.status(204).json({
+      res.status(200).json({
         status: 'success',
-        message: 'Pago realizado con éxito',
-        payment,
+        message: 'Webhook recibido',
       });
     }
   } catch (error) {
