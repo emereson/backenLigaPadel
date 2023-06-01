@@ -29,6 +29,22 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     discount = unitPrice * (event.discount1 / 100);
   } else if (couponCode === event.coupon2) {
     discount = unitPrice * (event.discount2 / 100);
+  } else if (couponCode === event.coupon3) {
+    discount = unitPrice * (event.discount3 / 100);
+  } else if (couponCode === event.coupon4) {
+    discount = unitPrice * (event.discount4 / 100);
+  } else if (couponCode === event.coupon5) {
+    discount = unitPrice * (event.discount5 / 100);
+  } else if (couponCode === event.coupon6) {
+    discount = unitPrice * (event.discount6 / 100);
+  } else if (couponCode === event.coupon7) {
+    discount = unitPrice * (event.discount7 / 100);
+  } else if (couponCode === event.coupon8) {
+    discount = unitPrice * (event.discount8 / 100);
+  } else if (couponCode === event.coupon9) {
+    discount = unitPrice * (event.discount9 / 100);
+  } else if (couponCode === event.coupon10) {
+    discount = unitPrice * (event.discount10 / 100);
   }
 
   const finalPrice = unitPrice - discount;
@@ -71,7 +87,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     message: 'LINK DE PAGO ENVIADO',
-    free: 951312399,
+    free: null,
     preferenceId: response,
   });
 });
