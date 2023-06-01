@@ -37,6 +37,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message: 'Evento registrado como gratuito',
+      free: 2405200,
       paymentLink: null,
     });
 
@@ -70,6 +71,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     message: 'LINK DE PAGO ENVIADO',
+    free: 951312399,
     preferenceId: response,
   });
 });
