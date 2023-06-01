@@ -69,7 +69,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    message: 'Pago realizado con éxito',
+    message: 'LINK DE PAGO ENVIADO',
     preferenceId: response,
   });
 });
