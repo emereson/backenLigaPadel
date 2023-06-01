@@ -155,6 +155,70 @@ const Event = db.define('event', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  coupon3: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  discount3: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  coupon4: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  discount4: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  coupon5: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  discount5: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  coupon6: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  discount6: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  coupon7: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  discount7: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  coupon8: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  discount8: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  coupon9: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  discount9: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  coupon10: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  discount10: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   status: {
     type: DataTypes.ENUM('active', 'inProgress', 'finished'),
     allowNull: false,
