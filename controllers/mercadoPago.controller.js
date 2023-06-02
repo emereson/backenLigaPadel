@@ -66,7 +66,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
         title: event.name,
         unit_price: finalPrice,
         quantity: 1,
-        currency_id: 'PEN',
+        currency_id: 'CLP',
       },
     ],
     notification_url: `${process.env.NOTIFICATION_URL}/api/v1/event/webhook`,
