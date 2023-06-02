@@ -16,10 +16,10 @@ exports.findAll = catchAsync(async (req, res, next) => {
 });
 
 exports.findOne = catchAsync(async (req, res, next) => {
-  const { collectorId } = req.body;
+  const { id } = req.params;
 
   const datePay = await DatePayments.findOne({
-    collectorId: collectorId,
+    id,
   });
 
   if (!datePay) {
