@@ -1,4 +1,5 @@
 const DatePayments = require('../models/datePayments.model');
+const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.findAll = catchAsync(async (req, res, next) => {
