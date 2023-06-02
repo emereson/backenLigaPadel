@@ -53,7 +53,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message: 'Evento registrado como gratuito',
-      free: 2405200,
+      free: 240529815613,
       paymentLink: null,
     });
 
