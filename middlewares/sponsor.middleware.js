@@ -1,5 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const Sponsor = require('../models/sponsor.model');
+const AppError = require('../utils/AppError');
 
 exports.validExistSponsor = catchAsync(async (req, res, next) => {
   const { id } = req.params;
