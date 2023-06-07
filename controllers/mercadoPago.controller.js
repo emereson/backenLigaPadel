@@ -71,7 +71,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     ],
     notification_url: `${process.env.NOTIFICATION_URL}/api/v1/event/webhook`,
     back_urls: {
-      success: 'http://localhost:5173/#/', // URL de éxito
+      success: 'https://strong-pixie-20867c.netlify.app', // URL de éxito
     },
     external_reference: id.toString(),
   };
