@@ -179,7 +179,7 @@ exports.update = catchAsync(async (req, res, next) => {
 exports.delete = catchAsync(async (req, res, next) => {
   const { inscription } = req;
 
-  await inscription.update({ status: 'disabled' });
+  await inscription.destroy();
 
   return res.status(200).json({
     status: 'success',
