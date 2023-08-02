@@ -16,7 +16,7 @@ router
   .patch(validationMiddleware.updateUser, userController.update)
   .delete(userController.delete);
 
-router.get('/orders', userController.findAll);
-router.get('/orders/:id', userMiddleware.validExistUse, userController.findOne);
+router.get('/', userController.findAll);
+router.get('/:id', userMiddleware.validExistUse, userController.findOne);
 
 module.exports = router;
